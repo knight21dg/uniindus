@@ -1,0 +1,154 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens, taken from the reference hero and the company PDF:
+ * deep navy canvas, gold for accents, borders and icons, orange only for CTAs.
+ */
+@theme {
+  --color-navy-950: #06101f;
+  --color-navy-900: #0b1b34;
+  --color-navy-850: #0f2240;
+  --color-navy-800: #13284a;
+  --color-navy-700: #1e3a64;
+  --color-gold-300: #ffd24d;
+  --color-gold-400: #fdb813;
+  --color-gold-500: #e9a800;
+  --color-cta-500: #f59e0b;
+  --color-cta-600: #f08a00;
+  --color-muted: #a7b3c6;
+  --color-line: rgb(148 163 184 / 0.22);
+
+  --font-heading: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 10px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    @apply bg-navy-950 font-body text-white antialiased;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  /* Anchor targets land below the fixed header. */
+  section[id],
+  [data-anchor] {
+    scroll-margin-top: 72px;
+  }
+  @media (min-width: 1024px) {
+    section[id],
+    [data-anchor] {
+      scroll-margin-top: 88px;
+    }
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold-400);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--color-gold-400);
+    color: var(--color-navy-950);
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
+  }
+  .section-y {
+    @apply py-14 sm:py-[72px] lg:py-24;
+  }
+  .eyebrow {
+    @apply font-body text-[0.8125rem] font-bold tracking-[0.22em] text-gold-400 uppercase;
+  }
+  .h2 {
+    @apply font-heading text-[1.875rem] leading-[1.12] font-extrabold tracking-[-0.01em] uppercase sm:text-4xl lg:text-[2.75rem];
+  }
+  .h3-panel {
+    @apply font-heading text-2xl leading-tight font-extrabold uppercase sm:text-[1.75rem];
+  }
+  .lead {
+    @apply text-base leading-relaxed text-muted sm:text-[1.0625rem];
+  }
+  .gold-rule {
+    @apply block h-[3px] w-14 rounded-full bg-linear-to-r from-gold-400 to-gold-400/0;
+  }
+  .panel {
+    @apply rounded-[var(--radius-card)] border border-gold-400/35 bg-navy-900/80;
+  }
+  .panel-subtle {
+    @apply rounded-[var(--radius-card)] border border-line bg-navy-900/70;
+  }
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-6 font-body text-base font-bold transition-[background,box-shadow,transform,border-color] duration-200 sm:text-lg;
+  }
+  .btn-primary {
+    @apply bg-linear-to-b from-cta-500 to-cta-600 text-navy-950 shadow-[0_8px_24px_rgba(245,158,11,0.25)] hover:from-gold-300 hover:to-cta-500;
+  }
+  .btn-secondary {
+    @apply border border-slate-400/35 bg-navy-900/70 text-white hover:border-gold-400/70 hover:bg-navy-800;
+  }
+  .chip {
+    @apply inline-flex min-h-11 items-center gap-2.5 rounded-lg border border-slate-400/30 bg-navy-900/60 px-4 text-[0.95rem] font-semibold text-white backdrop-blur-sm sm:text-lg;
+  }
+  .icon-ring {
+    @apply grid shrink-0 place-items-center rounded-full border border-gold-400/70 text-gold-400;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .hazard {
+    background-image: repeating-linear-gradient(-55deg, var(--color-gold-400) 0 6px, transparent 6px 12px);
+  }
+}
+
+/* Section reveal. Only applies once JS has set html.js, so the prerendered
+   page is fully visible without JavaScript. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
