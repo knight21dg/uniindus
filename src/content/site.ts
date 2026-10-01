@@ -14,11 +14,16 @@ export const SEO = {
 
 export type NavItem = { id: string; label: string }
 
-/** The client-fixed header order. Contact Us renders as the highlighted CTA. */
+/**
+ * Header order. Services and Products point at blocks inside the Business
+ * Verticals section. Contact Us renders as the highlighted CTA.
+ */
 export const NAV: NavItem[] = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'About' },
   { id: 'verticals', label: 'Verticals' },
+  { id: 'services', label: 'Services' },
+  { id: 'products', label: 'Products' },
   { id: 'industries', label: 'Industries' },
   { id: 'partners', label: 'Partners' },
   { id: 'contact', label: 'Contact Us' },

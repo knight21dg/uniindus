@@ -3,7 +3,8 @@ import type React from 'react'
 import { ArrowDown } from 'lucide-react'
 import { VERTICALS, VERTICALS_INTRO, VERTICAL_STRENGTHS, type DetailTab, type Vertical } from '../content/verticals'
 import { HexIcon, SectionHeading, StrengthStrip } from '../components/ui'
-import { Capabilities } from './Capabilities'
+import { Capabilities, Products } from './Capabilities'
+import { scrollToElement } from '../lib/scroll'
 
 /*
  * Flat-top honeycomb. The board is 4 hexes wide and 3 tall; columns step
@@ -66,7 +67,7 @@ function DetailButton({ v, onOpen, className = '' }: { v: Vertical; onOpen: (t: 
  */
 function Honeycomb({ onOpen }: { onOpen: (t: DetailTab) => void }) {
   return (
-    <div className="relative mx-auto w-full max-w-[1180px] xl:aspect-[4/2.598]">
+    <div className="relative mx-auto w-full max-w-[84rem] xl:aspect-[4/2.598]">
       <div
         className="panel mb-4 flex items-center justify-center px-5 py-5 xl:absolute xl:mb-0 xl:h-1/3 xl:w-1/4 xl:border-0 xl:bg-transparent xl:p-[1.5%]"
         style={cellStyle(CENTER)}
@@ -75,7 +76,7 @@ function Honeycomb({ onOpen }: { onOpen: (t: DetailTab) => void }) {
           <span className="hidden xl:contents">
             <HexShape strong />
           </span>
-          <p className="relative text-center font-heading text-xl leading-[1.15] font-extrabold uppercase xl:text-[1.7rem]">
+          <p className="relative text-center font-heading text-xl leading-[1.15] font-extrabold uppercase xl:text-[1.7rem] 2xl:text-[1.9rem]">
             <span className="mx-auto mb-2 hidden h-0.5 w-8 bg-gold-400 xl:block" aria-hidden="true" />
             <span className="text-white xl:block">{VERTICALS_INTRO.hub[0]} </span>
             <span className="text-gold-400 xl:block">{VERTICALS_INTRO.hub[1]} </span>
@@ -91,7 +92,7 @@ function Honeycomb({ onOpen }: { onOpen: (t: DetailTab) => void }) {
             <li
               key={v.id}
               style={{ '--x': cellStyle(CELLS[i]).left, '--y': cellStyle(CELLS[i]).top } as React.CSSProperties}
-              className={`group panel-subtle p-4 xl:absolute xl:top-(--y) xl:left-(--x) xl:h-1/3 xl:w-1/4 xl:border-0 xl:bg-transparent xl:p-[1.5%] ${
+              className={`reveal group panel-subtle hover-card hex-cell p-4 xl:absolute xl:top-(--y) xl:left-(--x) xl:h-1/3 xl:w-1/4 xl:border-0 xl:bg-transparent xl:p-[1.5%] ${
                 v.supporting ? 'border-dashed border-gold-400/50' : ''
               }`}
             >
@@ -104,10 +105,10 @@ function Honeycomb({ onOpen }: { onOpen: (t: DetailTab) => void }) {
                 </span>
                 <Icon className="relative hidden size-8 text-gold-400 xl:block" strokeWidth={1.6} aria-hidden="true" />
                 <div className="relative">
-                  <h3 className="font-heading text-base leading-tight font-bold text-white uppercase xl:mt-2 xl:text-[0.95rem]">
+                  <h3 className="font-heading text-base leading-tight font-bold text-white uppercase xl:mt-2 xl:text-[0.95rem] 2xl:text-[1.05rem]">
                     {v.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-snug text-muted xl:mt-1.5 xl:text-[0.84rem] xl:text-slate-300">{v.text}</p>
+                  <p className="mt-1 text-sm leading-snug text-muted xl:mt-1.5 xl:text-[0.84rem] 2xl:text-[0.92rem] xl:text-slate-300">{v.text}</p>
                   <DetailButton v={v} onOpen={onOpen} className="-mb-2 xl:-mb-3 xl:min-h-11" />
                 </div>
               </div>
@@ -127,18 +128,13 @@ export function Verticals() {
     setTab(t)
     const el = detailRef.current
     if (!el) return
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+    scrollToElement(el)
     // Move focus to the chosen tab so keyboard users land where they asked to go.
     requestAnimationFrame(() => document.getElementById(`tab-${t}`)?.focus({ preventScroll: true }))
   }
 
   return (
-    <section id="verticals" aria-labelledby="verticals-title" className="relative bg-navy-950">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(ellipse_at_center,rgba(30,58,100,0.45),transparent_65%)]"
-      />
+    <section id="verticals" aria-labelledby="verticals-title" className="theme-light relative bg-[#f1f5f9]">
       <div className="section-y container-x relative">
         <div className="reveal grid gap-6 lg:grid-cols-12 lg:items-end">
           <SectionHeading
@@ -153,7 +149,7 @@ export function Verticals() {
           </p>
         </div>
 
-        <div className="reveal mt-10 lg:mt-12">
+        <div className="mt-10 lg:mt-12">
           <Honeycomb onOpen={openDetail} />
         </div>
 
@@ -162,8 +158,12 @@ export function Verticals() {
         </div>
       </div>
 
-      <div ref={detailRef} id="capabilities" data-anchor className="border-t border-gold-400/15 bg-navy-900">
+      <div ref={detailRef} id="services" data-anchor className="theme-dark bg-navy-950">
         <Capabilities tab={tab} onTabChange={setTab} />
+      </div>
+
+      <div id="products" data-anchor className="theme-light bg-[#ffffff]">
+        <Products />
       </div>
     </section>
   )

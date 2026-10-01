@@ -18,7 +18,7 @@ import { BulletList, HexIcon, Img, SectionHeading, StrengthChips } from '../comp
 
 type Props = { tab: DetailTab; onTabChange: (t: DetailTab) => void }
 
-/** "Capabilities in depth": the PDF's service pages as an ARIA tab set. */
+/** "Services": the PDF's service pages (p5-p8, p11) as an ARIA tab set. */
 export function Capabilities({ tab, onTabChange }: Props) {
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     const i = DETAIL_TABS.findIndex((t) => t.id === tab)
@@ -37,7 +37,7 @@ export function Capabilities({ tab, onTabChange }: Props) {
   return (
     <div className="section-y container-x">
       <div className="max-w-3xl">
-        <p className="eyebrow">Capabilities in depth</p>
+        <p className="eyebrow">Our Services</p>
         <h3 className="mt-3 font-heading text-2xl font-extrabold text-white uppercase sm:text-3xl">
           What each vertical <span className="text-gold-400">delivers</span>
         </h3>
@@ -45,9 +45,9 @@ export function Capabilities({ tab, onTabChange }: Props) {
 
       <div
         role="tablist"
-        aria-label="Capabilities"
+        aria-label="Services"
         onKeyDown={onKeyDown}
-        className="scrollbar-none -mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-4"
+        className="scrollbar-none -mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-3"
       >
         {DETAIL_TABS.map((t) => {
           const selected = t.id === tab
@@ -64,7 +64,7 @@ export function Capabilities({ tab, onTabChange }: Props) {
               onClick={() => onTabChange(t.id)}
               className={`flex min-h-12 shrink-0 items-center gap-2.5 rounded-lg border px-4 text-left text-sm font-bold transition-colors sm:text-[0.95rem] ${
                 selected
-                  ? 'border-gold-400 bg-gold-400 text-navy-950'
+                  ? 'border-gold-400 bg-gold-400 text-ink'
                   : 'border-line bg-navy-950/60 text-slate-200 hover:border-gold-400/60 hover:text-white'
               }`}
             >
@@ -82,9 +82,6 @@ export function Capabilities({ tab, onTabChange }: Props) {
         </Panel>
         <Panel id="procurement" tab={tab}>
           <Procurement />
-        </Panel>
-        <Panel id="products" tab={tab}>
-          <Products />
         </Panel>
         <Panel id="exim" tab={tab}>
           <Exim />
@@ -112,7 +109,7 @@ function CategoryGrid({ items, label }: { items: Category[]; label: string }) {
   return (
     <ul aria-label={label} className="grid h-full gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {items.map(({ title, icon, items: list }) => (
-        <li key={title} className="panel-subtle p-4 transition-colors hover:border-gold-400/50 sm:p-5">
+        <li key={title} className="panel-subtle hover-card p-4 sm:p-5">
           <div className="flex items-center gap-3 xl:flex-col xl:items-start xl:gap-2">
             <HexIcon icon={icon} size="sm" />
             <h4 className="font-heading text-base leading-tight font-bold text-white uppercase">{title}</h4>
@@ -133,10 +130,10 @@ function BrandPanel({ title, brands, gridClass, className = '' }: { title: strin
         {title}
         <span className="h-px flex-1 bg-gold-400/60" aria-hidden="true" />
       </p>
-      <ul aria-label={title} className={`mt-3 grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-gold-400/60 bg-slate-200 ${gridClass}`}>
+      <ul aria-label={title} className={`mt-3 grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-gold-400/60 bg-[#e2e8f0] ${gridClass}`}>
         {brands.map((b) => (
-          <li key={b.name} className="flex h-16 items-center justify-center bg-white p-2.5 sm:h-[72px]">
-            <img src={b.logo} alt={b.name} loading="lazy" className="max-h-full max-w-full object-contain" />
+          <li key={b.name} className="flex h-16 items-center justify-center bg-[#ffffff] p-2.5 sm:h-[4.5rem]">
+            <img src={b.logo} alt={b.name} loading="lazy" className="max-h-full max-w-full object-contain transition-transform duration-200 hover:scale-110" />
           </li>
         ))}
       </ul>
@@ -159,7 +156,7 @@ function Manpower() {
           <Tagline>{MANPOWER.tagline}</Tagline>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <div className="panel p-5">
+            <div className="panel hover-card p-5">
               <h4 className="font-heading text-lg font-bold text-gold-400 uppercase">Workforce Solutions</h4>
               <ul className="mt-4 divide-y divide-white/10">
                 {MANPOWER.workforce.map(({ label, icon: Icon }) => (
@@ -172,7 +169,7 @@ function Manpower() {
                 ))}
               </ul>
             </div>
-            <div className="panel self-start p-5">
+            <div className="panel hover-card self-start p-5">
               <h4 className="font-heading text-lg font-bold text-gold-400 uppercase">Deployment Models</h4>
               <ul className="mt-4 divide-y divide-white/10">
                 {MANPOWER.deployment.map((label) => (
@@ -185,7 +182,7 @@ function Manpower() {
             </div>
           </div>
         </div>
-        <figure className="relative min-h-[260px] overflow-hidden rounded-[var(--radius-card)] border border-gold-400/35 lg:col-span-5">
+        <figure className="relative min-h-[16.25rem] overflow-hidden rounded-[var(--radius-card)] border border-gold-400/35 lg:col-span-5">
           <Img
             name={MANPOWER.image}
             alt="Offshore crews and platforms at dusk"
@@ -202,7 +199,7 @@ function Manpower() {
       <Tagline>{POSITIONS.tagline}</Tagline>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {POSITIONS.groups.map(({ title, icon, roles }) => (
-          <div key={title} className="panel p-5 sm:p-6">
+          <div key={title} className="panel hover-card p-5 sm:p-6">
             <div className="flex items-center gap-3">
               <HexIcon icon={icon} size="lg" />
               <h4 className="font-heading text-lg font-bold text-gold-400 uppercase">{title}</h4>
@@ -239,7 +236,7 @@ function Procurement() {
         </figure>
       </div>
 
-      <p className="mt-10 mb-4 inline-block rounded-md bg-gold-400 px-4 py-1.5 font-heading text-sm font-extrabold tracking-wide text-navy-950 uppercase">
+      <p className="mt-10 mb-4 inline-block rounded-md bg-gold-400 px-4 py-1.5 font-heading text-sm font-extrabold tracking-wide text-ink uppercase">
         Procurement Categories
       </p>
       <CategoryGrid items={PROCUREMENT.categories} label="Procurement categories" />
@@ -259,7 +256,7 @@ function Procurement() {
       <p className="lead mt-3 max-w-3xl">{OEM_MRO.text}</p>
 
       <div className="mt-8 grid gap-4 lg:grid-cols-3">
-        <div className="panel flex flex-col p-5 sm:p-6">
+        <div className="panel hover-card flex flex-col p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <HexIcon icon={Package} size="lg" />
             <h4 className="font-heading text-lg font-bold uppercase">
@@ -277,7 +274,7 @@ function Procurement() {
             className="mt-5 aspect-[16/9] w-full flex-1 rounded-md object-cover"
           />
         </div>
-        <div className="panel p-5 sm:p-6">
+        <div className="panel hover-card p-5 sm:p-6">
           <h4 className="font-heading text-lg font-bold uppercase">
             <span className="text-gold-400">MRO</span> Solutions
           </h4>
@@ -294,7 +291,7 @@ function Procurement() {
         </div>
         <ul aria-label="MRO benefits" className="grid grid-cols-2 gap-3">
           {OEM_MRO.benefits.map(({ label, icon: Icon }) => (
-            <li key={label} className="panel-subtle flex flex-col justify-center gap-3 p-4">
+            <li key={label} className="panel-subtle hover-card flex flex-col justify-center gap-3 p-4">
               <Icon className="size-7 text-gold-400" strokeWidth={1.5} aria-hidden="true" />
               <span className="font-heading text-sm leading-tight font-bold text-white uppercase">{label}</span>
             </li>
@@ -308,9 +305,11 @@ function Procurement() {
 
 /* ---------- Product Portfolio (p9) + Hydraulics & Technical Supplies (p10) ---------- */
 
-function Products() {
+/** "Products": its own block below Services, always visible. */
+export function Products() {
   return (
-    <>
+    <div className="section-y container-x">
+      <p className="eyebrow mb-4">Our Products</p>
       <SectionHeading as="h3" lines={PORTFOLIO.heading} />
       <Tagline>{PORTFOLIO.tagline}</Tagline>
       <p className="lead mt-3 mb-8 max-w-3xl">{PORTFOLIO.text}</p>
@@ -335,7 +334,7 @@ function Products() {
           <p className="lead mt-4">{HYDRAULICS.text}</p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-3">
             {HYDRAULICS.groups.map(({ title, icon, items }) => (
-              <li key={title} className="panel p-5">
+              <li key={title} className="panel hover-card p-5">
                 <HexIcon icon={icon} />
                 <h4 className="mt-3 font-heading text-base font-bold text-gold-400 uppercase">{title}</h4>
                 <BulletList items={items} className="mt-3" />
@@ -349,7 +348,7 @@ function Products() {
       </div>
       <BrandPanel title="Our Premium Brands" brands={HYDRAULICS.brands} gridClass="grid-cols-3 sm:grid-cols-5 lg:grid-cols-10" className="mt-10" />
       <StrengthChips items={HYDRAULICS.strengths} label="Technical supplies strengths" className="mt-8" />
-    </>
+    </div>
   )
 }
 
@@ -362,7 +361,7 @@ function Exim() {
         <div className="lg:col-span-5">
           <SectionHeading as="h3" lines={EXIM.heading} />
           <p className="lead mt-4">{EXIM.text}</p>
-          <div className="panel mt-8 p-5 sm:p-6">
+          <div className="panel hover-card mt-8 p-5 sm:p-6">
             <h4 className="font-heading text-lg font-bold text-gold-400 uppercase">Global Procurement Network</h4>
             <ul className="mt-3 divide-y divide-white/10">
               {EXIM.network.map((item) => (
@@ -379,7 +378,7 @@ function Exim() {
             name={EXIM.image}
             alt="Container port with cargo ship, trucks and an aircraft overhead"
             sizes="(min-width: 1024px) 700px, 100vw"
-            className="h-full min-h-[240px] w-full object-cover"
+            className="h-full min-h-[15rem] w-full object-cover"
           />
         </figure>
       </div>

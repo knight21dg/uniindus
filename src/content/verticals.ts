@@ -37,7 +37,7 @@ import { OilRig, type IconType } from '../components/icons'
 
 /* ---------- Business Verticals (PDF p1, p2, p4) ---------- */
 
-export type DetailTab = 'manpower' | 'procurement' | 'products' | 'exim'
+export type DetailTab = 'manpower' | 'procurement' | 'exim'
 
 export type Vertical = {
   id: string
@@ -85,7 +85,6 @@ export const VERTICAL_STRENGTHS = [
 export const DETAIL_TABS: { id: DetailTab; label: string; short: string }[] = [
   { id: 'manpower', label: 'Offshore & Industrial Manpower', short: 'Manpower' },
   { id: 'procurement', label: 'Industrial Procurement & MRO', short: 'Procurement & MRO' },
-  { id: 'products', label: 'Products & Technical Supplies', short: 'Products' },
   { id: 'exim', label: 'Global Sourcing & EXIM', short: 'Sourcing & EXIM' },
 ]
 
@@ -243,6 +242,5 @@ export const EXIM = {
 export const TAB_ICONS: Record<DetailTab, IconType> = {
   manpower: HardHat,
   procurement: ClipboardList,
-  products: Package,
   exim: Plane,
 }
