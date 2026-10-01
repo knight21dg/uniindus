@@ -16,7 +16,6 @@ import {
   Truck,
   Users,
   Zap,
-  Droplet,
   Ship,
   Factory,
 } from 'lucide-react'
@@ -41,7 +40,7 @@ export const HERO = {
 
 /** The gold "Serving Industries" strip that closes every PDF page. */
 export const SERVING_INDUSTRIES: { name: string; icon: IconType }[] = [
-  { name: 'Oil & Gas', icon: Droplet },
+  { name: 'Oil & Gas', icon: OilRig },
   { name: 'Marine', icon: Ship },
   { name: 'Energy', icon: Zap },
   { name: 'Construction', icon: Crane },

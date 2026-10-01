@@ -1,22 +1,25 @@
 @import 'tailwindcss';
 
 /*
- * Design tokens, taken from the reference hero and the company PDF:
- * deep navy canvas, gold for accents, borders and icons, orange only for CTAs.
+ * Design tokens. The values are the previous live site's palette: Tailwind's
+ * slate scale for the dark surfaces and its amber scale for the accents.
+ * "navy" and "gold" are kept as the role names used throughout the markup.
  */
 @theme {
-  --color-navy-950: #06101f;
-  --color-navy-900: #0b1b34;
-  --color-navy-850: #0f2240;
-  --color-navy-800: #13284a;
-  --color-navy-700: #1e3a64;
-  --color-gold-300: #ffd24d;
-  --color-gold-400: #fdb813;
-  --color-gold-500: #e9a800;
-  --color-cta-500: #f59e0b;
-  --color-cta-600: #f08a00;
-  --color-muted: #a7b3c6;
+  --color-navy-950: #020617; /* slate-950 */
+  --color-navy-900: #0f172a; /* slate-900 */
+  --color-navy-850: #162033;
+  --color-navy-800: #1e293b; /* slate-800 */
+  --color-navy-700: #334155; /* slate-700 */
+  --color-gold-300: #fcd34d; /* amber-300 */
+  --color-gold-400: #fbbf24; /* amber-400 */
+  --color-gold-500: #f59e0b; /* amber-500 */
+  --color-cta-500: #f59e0b; /* amber-500 */
+  --color-cta-600: #d97706; /* amber-600 */
+  --color-muted: #cbd5e1; /* slate-300 */
   --color-line: rgb(148 163 184 / 0.22);
+  /* Text that sits on an amber fill. Never remapped by the light theme. */
+  --color-ink: #020617;
 
   --font-heading: 'Poppins', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
@@ -24,10 +27,81 @@
   --radius-card: 10px;
 }
 
+/*
+ * Light sections, as on the previous live site (slate-50 / slate-100 / white
+ * with white cards and amber-600 accents). The markup is written once for dark
+ * surfaces; inside .theme-light the same role tokens resolve to their light
+ * counterparts. .theme-dark switches back, for photo cards inside a light section.
+ */
+.theme-light {
+  --color-white: #0f172a; /* headings: slate-900 */
+  --color-slate-100: #1e293b;
+  --color-slate-200: #334155;
+  --color-slate-300: #475569;
+  --color-slate-400: #64748b;
+  --color-muted: #475569; /* slate-600 */
+  --color-navy-950: #f1f5f9; /* slate-100 wells */
+  --color-navy-900: #ffffff; /* cards */
+  --color-navy-850: #f8fafc;
+  --color-navy-800: #f8fafc;
+  --color-navy-700: #e2e8f0;
+  --color-gold-300: #b45309; /* amber-700, hover text */
+  --color-gold-400: #d97706; /* amber-600, accents */
+  --color-line: #e2e8f0; /* slate-200 */
+  --color-red-100: #991b1b;
+  --color-red-300: #dc2626;
+  --color-emerald-100: #065f46;
+  --color-emerald-300: #059669;
+  color: #0f172a;
+}
+.theme-dark {
+  --color-white: #fff;
+  --color-slate-100: oklch(96.8% 0.007 247.896);
+  --color-slate-200: oklch(92.9% 0.013 255.508);
+  --color-slate-300: oklch(86.9% 0.022 252.894);
+  --color-slate-400: oklch(70.4% 0.04 256.788);
+  --color-muted: #cbd5e1;
+  --color-navy-950: #020617;
+  --color-navy-900: #0f172a;
+  --color-navy-850: #162033;
+  --color-navy-800: #1e293b;
+  --color-navy-700: #334155;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #fbbf24;
+  --color-line: rgb(148 163 184 / 0.22);
+  --color-red-100: oklch(93.6% 0.032 17.717);
+  --color-red-300: oklch(80.8% 0.114 19.571);
+  --color-emerald-100: oklch(95% 0.052 163.051);
+  --color-emerald-300: oklch(84.5% 0.143 164.978);
+  color: #fff;
+}
+.theme-light .panel,
+.theme-light .panel-subtle {
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+}
+.theme-dark .panel,
+.theme-dark .panel-subtle {
+  box-shadow: none;
+}
+/* Honeycomb cells and wheel points drop their card chrome from 1280px. */
+@media (min-width: 1280px) {
+  .theme-light .panel-subtle.hex-cell,
+  .theme-light .panel-subtle.xl-plain {
+    box-shadow: none;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /*
+     * 1rem is the visitor's default size up to 1536px wide, then grows with the
+     * viewport (20px at 1920, 26.7px at 2560). Everything sized in rem, which is
+     * all section spacing, type and the page container, scales together, so
+     * wide screens get a proportionally larger page instead of a narrow column.
+     */
+    font-size: clamp(100%, 1.0417vw, 300%);
   }
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -39,15 +113,25 @@
     font-size: 1rem;
     line-height: 1.65;
   }
+  /* The header's height. Fluid on desktop so it keeps pace with large screens. */
+  :root {
+    --header-h: 64px;
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --header-h: clamp(80px, 5.44vw, 210px);
+    }
+  }
   /* Anchor targets land below the fixed header. */
   section[id],
   [data-anchor] {
-    scroll-margin-top: 72px;
+    scroll-margin-top: calc(var(--header-h) + 8px);
   }
   @media (min-width: 1024px) {
     section[id],
     [data-anchor] {
-      scroll-margin-top: 88px;
+      /* The header is 14px shorter once scrolled. */
+      scroll-margin-top: calc(var(--header-h) - 14px);
     }
   }
   h1,
@@ -69,7 +153,18 @@
 
 @layer components {
   .container-x {
-    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
+    /*
+     * The one page container, used by every section below the hero. It has the
+     * same side padding as the header (16px phones, 24px tablets, then 4.95% of
+     * the viewport), so content lines up with the logo and the Contact Us
+     * button. Text blocks set their own narrower max-width.
+     */
+    @apply mx-auto w-full px-4 sm:px-6;
+  }
+  @media (min-width: 1024px) {
+    .container-x {
+      padding-inline: clamp(32px, 4.95vw, 190px);
+    }
   }
   .section-y {
     @apply py-14 sm:py-[72px] lg:py-24;
@@ -96,19 +191,382 @@
     @apply rounded-[var(--radius-card)] border border-line bg-navy-900/70;
   }
   .btn {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-6 font-body text-base font-bold transition-[background,box-shadow,transform,border-color] duration-200 sm:text-lg;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-6 font-body text-base font-bold sm:text-lg;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn:active {
+    scale: 0.98;
+  }
+  .btn-arrow {
+    transition: translate 0.2s ease;
   }
   .btn-primary {
-    @apply bg-linear-to-b from-cta-500 to-cta-600 text-navy-950 shadow-[0_8px_24px_rgba(245,158,11,0.25)] hover:from-gold-300 hover:to-cta-500;
+    @apply bg-linear-to-r from-amber-500 to-amber-600 text-ink shadow-xl hover:from-amber-600 hover:to-amber-700;
   }
   .btn-secondary {
-    @apply border border-slate-400/35 bg-navy-900/70 text-white hover:border-gold-400/70 hover:bg-navy-800;
+    @apply border border-slate-700 bg-slate-900/90 text-white shadow-lg backdrop-blur-md hover:bg-slate-800;
   }
   .chip {
-    @apply inline-flex min-h-11 items-center gap-2.5 rounded-lg border border-slate-400/30 bg-navy-900/60 px-4 text-[0.95rem] font-semibold text-white backdrop-blur-sm sm:text-lg;
+    @apply inline-flex min-h-12 items-center gap-2.5 rounded-lg border border-slate-400/30 bg-navy-950/55 px-4 text-[0.95rem] font-semibold text-white backdrop-blur-sm sm:px-5 sm:text-[1.05rem];
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+  /* Cards and tiles share one hover: lift, gold edge, soft shadow. */
+  .hover-card {
+    position: relative;
+    transition:
+      translate 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      scale 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      background-color 0.3s ease;
   }
   .icon-ring {
     @apply grid shrink-0 place-items-center rounded-full border border-gold-400/70 text-gold-400;
+  }
+
+  /*
+   * Header and hero. Nothing here is scaled as a block: each size is its own
+   * clamp(), with a floor for small laptops, a viewport-based middle, and a
+   * ceiling for very large monitors. The background image never sizes the UI.
+   */
+  .site-header-inner {
+    @apply mx-auto flex items-center justify-between px-4 sm:px-6;
+    height: var(--header-h);
+  }
+  .site-nav-link {
+    @apply relative flex min-h-11 items-center font-heading font-medium transition-colors;
+    padding-inline: clamp(10px, 1.25vw, 48px);
+    font-size: clamp(16px, 1.03vw, 40px);
+  }
+  .site-nav-cta {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    min-height: clamp(48px, 3.53vw, 136px);
+    padding-inline: clamp(22px, 2.1vw, 80px);
+    margin-left: clamp(8px, 1.3vw, 50px);
+    font-size: clamp(16px, 1.03vw, 40px);
+    border-radius: clamp(8px, 0.5vw, 19px);
+  }
+  .logo-tile {
+    @apply grid h-11 w-14 shrink-0 place-items-center rounded-[10px] bg-white shadow-sm;
+  }
+  .logo-tile img {
+    @apply h-8 w-auto;
+  }
+  .logo-name {
+    @apply font-heading text-lg font-extrabold tracking-tight text-white;
+  }
+  .logo-sub {
+    @apply mt-1 font-body text-[0.62rem] font-bold tracking-[0.2em] text-gold-400;
+  }
+
+  .hero-stage {
+    @apply relative isolate flex flex-1 items-center overflow-hidden bg-navy-950;
+    padding-top: calc(var(--header-h) + 24px);
+    padding-bottom: 40px;
+  }
+  .hero-bg {
+    @apply absolute inset-0 -z-20 size-full object-cover;
+    object-position: 66% center;
+  }
+  .hero-overlay {
+    @apply absolute inset-0 -z-10;
+    background: linear-gradient(180deg, rgb(3 15 31 / 0.88) 0%, rgb(3 15 31 / 0.7) 55%, rgb(3 15 31 / 0.82) 100%);
+  }
+  .hero-content {
+    width: calc(100% - 40px);
+    margin-inline: auto;
+    --hero-gap: 22px;
+  }
+  .hero-badge {
+    @apply inline-flex items-center rounded-full border border-gold-400/60 bg-navy-950/65 font-bold text-gold-400 uppercase backdrop-blur-sm;
+    gap: 0.9em;
+    min-height: 48px;
+    padding: 5px 1.5em 5px 5px;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+  }
+  .hero-badge-mark {
+    @apply grid shrink-0 place-items-center rounded-full bg-white;
+    width: 3em;
+    height: 3em;
+  }
+  .hero-badge-mark img {
+    height: 1.9em;
+    width: auto;
+  }
+  .hero-title {
+    @apply font-heading font-extrabold;
+    margin-top: var(--hero-gap);
+    font-size: clamp(2.625rem, 12vw, 3.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+  .hero-rule {
+    @apply block rounded-full bg-gold-400;
+    margin-top: calc(var(--hero-gap) * 0.8);
+    width: clamp(140px, 12.5vw, 330px);
+    height: clamp(3px, 0.18vw, 5px);
+  }
+  .hero-subtitle {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    margin-top: var(--hero-gap);
+    max-width: 22em;
+    font-size: clamp(1.0625rem, 4.6vw, 1.1875rem);
+    line-height: 1.35;
+    color: rgb(255 255 255 / 0.95);
+  }
+  .hero-chips {
+    @apply flex flex-wrap;
+    margin-top: var(--hero-gap);
+    gap: clamp(10px, 0.85vw, 22px);
+  }
+  .hero-chip {
+    @apply inline-flex items-center border border-slate-400/35 bg-navy-950/60 font-heading font-medium text-white backdrop-blur-sm;
+    gap: 0.6em;
+    min-height: 48px;
+    padding-inline: 1.1em;
+    font-size: 1rem;
+    border-radius: clamp(8px, 0.5vw, 13px);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+  .hero-chip svg {
+    @apply shrink-0 text-gold-400;
+    width: 1.3em;
+    height: 1.3em;
+  }
+  .hero-actions {
+    @apply flex flex-col;
+    margin-top: var(--hero-gap);
+    gap: 14px;
+  }
+  .hero-btn {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    width: 100%;
+    min-height: 56px;
+    padding-inline: 28px;
+    font-size: 1.0625rem;
+    border-radius: 12px;
+    gap: 0.6em;
+  }
+  .btn-secondary.hero-btn {
+    font-weight: 500;
+  }
+  .hero-btn svg {
+    width: 1.15em;
+    height: 1.15em;
+  }
+
+  /* Tablet: side-by-side buttons, narrower left-aligned column. */
+  @media (min-width: 768px) {
+    .hero-bg {
+      object-position: 70% center;
+    }
+    .hero-overlay {
+      background: linear-gradient(90deg, rgb(3 15 31 / 0.92) 0%, rgb(3 15 31 / 0.72) 48%, rgb(3 15 31 / 0.3) 100%);
+    }
+    .hero-content {
+      width: auto;
+      max-width: 660px;
+      margin-inline: 6vw auto;
+      --hero-gap: 26px;
+    }
+    .hero-badge {
+      min-height: 52px;
+      font-size: 0.85rem;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 6.2vw, 3.75rem);
+    }
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 2.2vw, 1.3125rem);
+    }
+    .hero-actions {
+      flex-direction: row;
+      gap: 16px;
+    }
+    .hero-btn {
+      width: auto;
+      min-height: 60px;
+    }
+  }
+
+  /*
+   * Desktop. Every middle value below is the reference measurement divided by
+   * its 1839px width, so the page reproduces the reference at that size and
+   * keeps the same proportions on any other screen. Floors protect small
+   * laptops; ceilings stop growth on very large monitors.
+   */
+  @media (min-width: 1024px) {
+    .site-header-inner {
+      padding-inline: clamp(32px, 4.95vw, 190px); /* logo starts at x=91 */
+    }
+    .logo-tile.logo-fluid {
+      width: clamp(84px, 5.93vw, 228px); /* 109px */
+      height: clamp(54px, 3.75vw, 144px); /* 69px */
+      border-radius: clamp(10px, 0.6vw, 23px);
+    }
+    .logo-tile.logo-fluid img {
+      height: clamp(40px, 2.8vw, 108px);
+    }
+    .logo-name.logo-fluid {
+      font-size: clamp(21px, 1.47vw, 56px); /* 27px */
+      letter-spacing: 0.035em;
+    }
+    .logo-sub.logo-fluid {
+      font-size: clamp(11px, 0.72vw, 28px);
+    }
+    .hero-stage {
+      padding-top: calc(var(--header-h) + clamp(16px, 2.4vw, 92px));
+      padding-bottom: clamp(24px, 2.6vw, 100px);
+    }
+    .hero-bg {
+      object-position: 80% center;
+    }
+    .hero-overlay {
+      background:
+        linear-gradient(180deg, rgb(3 15 31 / 0.45) 0%, rgb(3 15 31 / 0) 22%),
+        linear-gradient(90deg, rgb(3 15 31 / 0.38) 0%, rgb(3 15 31 / 0.2) 30%, rgb(3 15 31 / 0) 52%);
+    }
+    .hero-content {
+      max-width: max(850px, 46vw);
+      margin-inline: clamp(64px, 11.4vw, 438px) 32px; /* content starts at x=210 */
+      --hero-gap: clamp(16px, 1.15vw, 44px); /* 21px */
+    }
+    .hero-badge {
+      min-height: clamp(48px, 3.15vw, 121px); /* 58px */
+      font-size: clamp(13px, 0.87vw, 33px); /* 16px */
+    }
+    .hero-title {
+      font-size: clamp(56px, 5.22vw, 200px); /* 96px */
+      line-height: 0.96;
+    }
+    .hero-subtitle {
+      font-size: clamp(19px, 1.33vw, 51px); /* 24.5px */
+      line-height: 1.3;
+      max-width: 21em;
+    }
+    .hero-chips {
+      gap: clamp(12px, 0.87vw, 33px); /* 16px */
+    }
+    .hero-chip {
+      min-height: clamp(44px, 2.61vw, 100px); /* 48px */
+      font-size: clamp(15px, 0.92vw, 35px); /* 17px */
+      border-radius: clamp(8px, 0.45vw, 17px);
+    }
+    .hero-actions {
+      margin-top: clamp(20px, 1.58vw, 61px); /* 29px */
+      gap: clamp(14px, 1.03vw, 40px); /* 19px */
+    }
+    .hero-btn {
+      min-height: clamp(56px, 3.59vw, 138px); /* 66px */
+      padding-inline: clamp(26px, 2.2vw, 84px);
+      font-size: clamp(16px, 1.03vw, 40px); /* 19px */
+      border-radius: clamp(8px, 0.5vw, 19px);
+    }
+  }
+
+  /*
+   * Serving Industries: the label stays put and the industries scroll past it.
+   * Heights and type sizes are the reference bar's (95px tall at 1839px wide).
+   */
+  .industry-bar {
+    @apply flex items-stretch bg-gold-400 text-ink;
+  }
+  .industry-item {
+    @apply relative flex shrink-0 items-center font-heading font-bold whitespace-nowrap uppercase;
+    gap: 0.7em;
+    min-height: 60px;
+    padding-inline: 22px;
+    font-size: 0.82rem;
+  }
+  .industry-item svg {
+    @apply shrink-0;
+    width: 2.1em;
+    height: 2.1em;
+    stroke-width: 2.1;
+  }
+  /* divider on the leading edge of every cell */
+  .industry-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 28%;
+    bottom: 28%;
+    width: 1px;
+    background: rgb(6 16 31 / 0.5);
+  }
+  .industry-label {
+    @apply relative z-10 bg-gold-400;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    padding-inline: 16px 18px;
+    box-shadow: 10px 0 14px -8px rgb(6 16 31 / 0.35);
+  }
+  .industry-label::before {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .industry-item {
+      min-height: 66px;
+      padding-inline: 30px;
+      font-size: 0.9rem;
+    }
+    .industry-label {
+      padding-inline: 24px 28px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .industry-bar {
+      background: linear-gradient(90deg, var(--color-gold-500), var(--color-gold-400) 30%, var(--color-gold-400) 70%, var(--color-gold-500));
+    }
+    .industry-item {
+      min-height: clamp(72px, 5.17vw, 198px); /* 95px */
+      padding-inline: clamp(28px, 3.4vw, 130px);
+      font-size: clamp(13px, 1.06vw, 41px); /* 19.5px */
+    }
+    .industry-label {
+      background: var(--color-gold-500);
+      padding-inline: clamp(32px, 6.85vw, 263px) clamp(24px, 2.4vw, 92px);
+    }
+  }
+
+  /* Partner cards in the scrolling strip (the previous live site's treatment). */
+  .partner-card {
+    @apply flex shrink-0 items-center gap-4 rounded-2xl border bg-[#ffffff] px-6 py-4;
+    border-color: #e2e8f0;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+    scale: 0.95;
+    opacity: 0.8;
+    transition:
+      scale 0.3s ease,
+      opacity 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      background 0.3s ease;
+  }
+  .partner-card[data-center] {
+    position: relative;
+    z-index: 30;
+    scale: 1.15;
+    opacity: 1;
+    border-color: #fbbf24;
+    outline: 1px solid #fbbf24;
+    background: linear-gradient(90deg, #fffbeb, #ffffff, #fffbeb);
+    box-shadow: 0 12px 35px rgb(245 158 11 / 0.4);
+  }
+  .partner-logo {
+    @apply grid h-14 w-28 shrink-0 place-items-center overflow-hidden rounded-xl bg-[#ececec] p-1.5;
+    transition: scale 0.3s ease;
+  }
+  .partner-card[data-center] .partner-logo {
+    scale: 1.06;
   }
 }
 
@@ -127,23 +585,281 @@
   }
 }
 
-/* Section reveal. Only applies once JS has set html.js, so the prerendered
-   page is fully visible without JavaScript. */
+/*
+ * Scroll reveal, matching the previous live site's motion: blocks fade up 28px
+ * over 0.6s, cards in a row follow each other 0.1s apart (--rd is set per
+ * element in App.tsx), and About's two columns slide in from the sides.
+ * It only applies once JS has set html.js, so the prerendered page is fully
+ * visible without JavaScript.
+ */
 .js .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(28px);
+}
+.js .reveal[data-reveal='left'] {
+  transform: translateX(-40px);
+}
+.js .reveal[data-reveal='right'] {
+  transform: translateX(40px);
 }
 .js .reveal.is-visible {
   opacity: 1;
   transform: none;
   transition:
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out;
+    opacity 0.6s ease-out var(--rd, 0s),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0s),
+    translate 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    scale 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
 }
+.js .reveal[data-reveal].is-visible {
+  transition-duration: 0.7s, 0.7s, 0.3s, 0.3s, 0.3s, 0.3s, 0.3s;
+}
+
+/* Hero entrance on load: each block rises in turn. */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+.hero-content > * {
+  animation: hero-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-content > :nth-child(2) {
+  animation-delay: 0.08s;
+}
+.hero-content > :nth-child(3) {
+  animation-delay: 0.16s;
+}
+.hero-content > :nth-child(4) {
+  animation-delay: 0.24s;
+}
+.hero-content > :nth-child(5) {
+  animation-delay: 0.32s;
+}
+.hero-content > :nth-child(6) {
+  animation-delay: 0.4s;
+}
+
+/* Lenis drives the eased wheel scrolling; it needs native smooth scrolling off. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+html.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Header: transparent over the hero, white once scrolled (as on the live site). */
+.site-header {
+  background: transparent; /* the hero's own overlay shades the top */
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+.site-header .site-header-inner {
+  transition: height 0.3s ease;
+}
+.site-header.is-open {
+  background: #020617;
+  border-bottom-color: rgb(251 191 36 / 0.15);
+}
+.site-header.is-scrolled {
+  background: rgb(255 255 255 / 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom-color: rgb(226 232 240 / 0.8);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.site-header.is-scrolled .logo-name {
+  color: #0f172a;
+}
+.site-header.is-scrolled .logo-sub {
+  color: #d97706;
+}
+.site-header.is-scrolled .logo-tile {
+  box-shadow: 0 0 0 1px #e2e8f0;
+}
+@media (min-width: 1024px) {
+  .site-header.is-scrolled .site-header-inner {
+    height: calc(var(--header-h) - 14px);
+  }
+}
+
+/*
+ * Hover effects, as on the previous live site. They apply only where a pointer
+ * can hover, so taps on phones don't leave them stuck on.
+ *   cards   lift 4px, amber border, large soft shadow (card-hover-lift + hover:shadow-xl)
+ *   inside  titles turn amber, icon badges fill amber, images zoom 5%
+ *   buttons grow 5% and darken; the arrow nudges right
+ */
+@media (hover: hover) {
+  .hover-card:hover {
+    translate: 0 -4px;
+    border-color: #fbbf24; /* amber-400 on dark */
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+  /* Amber bar that draws across the top edge of a hovered card. */
+  .hover-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px -1px auto -1px;
+    z-index: 2;
+    height: 5px;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+    background: #f59e0b;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  .hover-card:hover::before {
+    transform: scaleX(1);
+  }
+  .theme-light .hover-card:hover {
+    border-color: #f59e0b; /* amber-500 on light */
+  }
+  .theme-dark .hover-card:hover {
+    border-color: #fbbf24;
+    background-color: #0f172a;
+  }
+  .hover-card :is(h3, h4, .card-title) {
+    transition: color 0.3s ease;
+  }
+  .hover-card:hover :is(h3, h4, .card-title) {
+    color: var(--color-gold-400);
+  }
+  .hover-card .icon-ring,
+  .hover-card .hex-icon polygon,
+  .hover-card .hex-icon > svg:last-child {
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease,
+      fill 0.3s ease,
+      scale 0.3s ease;
+  }
+  .hover-card:hover .icon-ring {
+    background-color: #f59e0b;
+    border-color: #f59e0b;
+    color: #020617;
+    scale: 1.1;
+  }
+  .hover-card:hover .hex-icon polygon {
+    fill: #f59e0b;
+  }
+  .hover-card:hover .hex-icon > svg:last-child {
+    color: #020617;
+  }
+
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    scale: 1.05;
+  }
+  /* The header button and the form's submit button darken without growing. */
+  .site-nav-cta:hover,
+  .btn-flat:hover {
+    scale: 1;
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  .btn:hover .btn-arrow {
+    translate: 4px 0;
+  }
+
+  .logo-tile {
+    transition:
+      scale 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  a:hover > span > .logo-tile {
+    scale: 1.05;
+    box-shadow: 0 0 0 1px #fbbf24;
+  }
+
+  /* Honeycomb cells and wheel points are placed precisely from 1280px, so they
+     keep their position: hexes grow slightly instead of lifting. */
+  @media (min-width: 1280px) {
+    .hover-card.hex-cell:hover {
+      translate: none;
+      box-shadow: none;
+      scale: 1.05;
+      z-index: 10;
+    }
+    .hover-card.xl-plain:hover {
+      translate: revert-layer;
+      box-shadow: none;
+    }
+    /* Hexagons and wheel points have no straight top edge to carry the bar. */
+    .hover-card.hex-cell::before,
+    .hover-card.xl-plain::before {
+      display: none;
+    }
+  }
+  .chip:hover,
+  .hero-chip:hover {
+    border-color: rgb(251 191 36 / 0.7);
+    background-color: rgb(30 41 59 / 0.8);
+  }
+}
+
+/*
+ * Marquee: several copies of a list slide left by exactly one copy's width,
+ * then repeat. --marquee-copies must match the number of copies rendered.
+ * Pauses on hover or keyboard focus.
+ */
+@keyframes marquee {
+  to {
+    transform: translateX(calc(-100% / var(--marquee-copies, 3)));
+  }
+}
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 35s) linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track,
+.marquee:focus-visible .marquee-track {
+  animation-play-state: paused;
+}
+@media (hover: hover) {
+  .partner-card:not([data-center]):hover {
+    scale: 1;
+    opacity: 1;
+    border-color: #fbbf24;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js .reveal {
     opacity: 1;
     transform: none;
+  }
+  .hero-content > * {
+    animation: none;
+  }
+  /* No automatic motion: the strips stand still and can be swiped sideways. */
+  .marquee-track {
+    animation: none;
+  }
+  .marquee {
+    overflow-x: auto;
   }
   *,
   *::before,

@@ -4,6 +4,7 @@ import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { NAV } from '../content/site'
 import { COMPANY } from '../content/company'
 import { Logo } from './Logo'
+import { scrollToElement, setScrollLocked } from '../lib/scroll'
 
 /** Which nav section the reader is in: the last one whose top has scrolled past the threshold. */
 function useActiveSection(ids: string[]) {
@@ -59,6 +60,7 @@ export function Header() {
     if (!open) return
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    setScrollLocked(true)
     const focusables = () =>
       Array.from(drawerRef.current?.querySelectorAll<HTMLElement>('a[href], button') ?? []).concat(toggleRef.current ?? [])
     focusables()[0]?.focus()
@@ -79,11 +81,12 @@ export function Header() {
         }
       }
     }
-    const onResize = () => window.innerWidth >= 1024 && setOpen(false)
+    const onResize = () => window.innerWidth >= 1280 && setOpen(false)
     document.addEventListener('keydown', onKey)
     window.addEventListener('resize', onResize)
     return () => {
       document.body.style.overflow = prev
+      setScrollLocked(false)
       document.removeEventListener('keydown', onKey)
       window.removeEventListener('resize', onResize)
     }
@@ -96,29 +99,29 @@ export function Header() {
     setOpen(false)
     setTimeout(() => {
       document.body.style.overflow = ''
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+      setScrollLocked(false)
+      const target = document.getElementById(id)
+      if (target) scrollToElement(target)
       history.replaceState(null, '', `#${id}`)
     }, 0)
   }
 
-  const solid = scrolled || open
+  // White once scrolled; dark while the mobile menu is open; see-through over the hero.
+  const light = scrolled && !open
   const links = NAV.slice(0, -1)
   const contact = NAV[NAV.length - 1]
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
-        solid ? 'border-b border-gold-400/15 bg-navy-900/95 backdrop-blur-md' : 'border-b border-transparent bg-transparent'
-      }`}
+      className={`site-header fixed inset-x-0 top-0 z-50 ${light ? 'is-scrolled' : ''} ${open ? 'is-open' : ''}`}
     >
-      <div className="mx-auto flex h-16 max-w-[1840px] items-center justify-between px-4 sm:px-6 lg:h-[88px] lg:px-10 xl:px-14">
+      <div className="site-header-inner">
         <a href="#home" className="-m-1 flex min-h-11 items-center rounded-lg p-1" aria-label={`${COMPANY.name}, back to top`}>
           <Logo />
         </a>
 
-        <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-1 xl:gap-3">
+        <nav aria-label="Primary" className="hidden xl:block">
+          <ul className="flex items-center">
             {links.map((item) => {
               const isActive = active === item.id
               return (
@@ -126,14 +129,20 @@ export function Header() {
                   <a
                     href={`#${item.id}`}
                     aria-current={isActive ? 'location' : undefined}
-                    className={`relative flex min-h-11 items-center px-3 text-[1.0625rem] font-semibold transition-colors ${
-                      isActive ? 'text-gold-400' : 'text-white hover:text-gold-300'
+                    className={`site-nav-link ${
+                      light
+                        ? isActive
+                          ? 'text-amber-600'
+                          : 'text-slate-700 hover:text-amber-600'
+                        : isActive
+                          ? 'text-gold-400'
+                          : 'text-white/90 hover:text-gold-400'
                     }`}
                   >
                     {item.label}
                     <span
                       aria-hidden="true"
-                      className={`absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-gold-400 transition-transform duration-300 ${
+                      className={`absolute inset-x-[clamp(10px,1vw,26px)] bottom-1 h-0.5 rounded-full bg-amber-500 transition-transform duration-300 ${
                         isActive ? 'scale-x-100' : 'scale-x-0'
                       }`}
                     />
@@ -141,16 +150,16 @@ export function Header() {
                 </li>
               )
             })}
-            <li className="ml-4 xl:ml-6">
+            <li>
               <a
                 href={`#${contact.id}`}
                 aria-current={active === contact.id ? 'location' : undefined}
-                className={`btn btn-primary min-h-12 px-7 text-[1.0625rem] sm:text-[1.0625rem] ${
-                  active === contact.id ? 'ring-2 ring-gold-300 ring-offset-2 ring-offset-navy-900' : ''
+                className={`btn btn-primary site-nav-cta ${
+                  active === contact.id ? 'ring-2 ring-amber-300 ring-offset-2 ring-offset-transparent' : ''
                 }`}
               >
                 {contact.label}
-                <ArrowUpRight className="size-[18px]" aria-hidden="true" />
+                <ArrowUpRight className="btn-arrow size-[1.1em]" aria-hidden="true" />
               </a>
             </li>
           </ul>
@@ -159,7 +168,9 @@ export function Header() {
         <button
           ref={toggleRef}
           type="button"
-          className="grid size-12 place-items-center rounded-lg border border-white/20 bg-navy-900/60 text-white lg:hidden"
+          className={`grid size-12 place-items-center rounded-lg border transition-colors xl:hidden ${
+            light ? 'border-slate-300 bg-white text-slate-900' : 'border-white/20 bg-navy-900/60 text-white'
+          }`}
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -173,7 +184,7 @@ export function Header() {
         id="mobile-menu"
         ref={drawerRef}
         hidden={!open}
-        className="h-[calc(100dvh-4rem)] overflow-y-auto border-t border-gold-400/15 bg-navy-950 lg:hidden"
+        className="h-[calc(100dvh-var(--header-h))] overflow-y-auto border-t border-gold-400/15 bg-navy-950 xl:hidden"
       >
         <nav aria-label="Mobile" className="px-4 py-4 sm:px-6">
           <ul className="divide-y divide-white/10">
@@ -195,7 +206,7 @@ export function Header() {
           </ul>
           <a href={`#${contact.id}`} onClick={goTo(contact.id)} className="btn btn-primary mt-6 w-full">
             {contact.label}
-            <ArrowUpRight className="size-[18px]" aria-hidden="true" />
+            <ArrowUpRight className="btn-arrow size-[1.125rem]" aria-hidden="true" />
           </a>
           <p className="mt-8 text-center text-sm font-semibold tracking-[0.2em] text-gold-400 uppercase">{COMPANY.motto}</p>
         </nav>

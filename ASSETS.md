@@ -23,7 +23,7 @@ The PDF embeds each page as one image of about 1536 px wide, so these crops are 
 
 | Published name | Used for |
 | --- | --- |
-| `hero-rig` | Hero background, `og-image.jpg`. This is the scene on PDF p1 and in the reference screenshot. The original is only 1024 px wide, and the PDF's copy is smaller still. |
+| `hero-port` | Hero background and `og-image.jpg`. Made from the client's supplied picture (`ChatGPT Image Oct 1, 2026, 10_51_15 AM.png`, 1839x855). That picture has a logo, menu, heading, buttons and yellow bar painted into it, so those were erased and the bar cropped off, leaving only the port-at-sunset scene. The cleaned original is `../_source-assets/hero-port-sunset.png`. A version of the artwork without any painted UI, at 2560 px wide or more, would be sharper on large monitors. |
 | `about-offshore-rig`, `hero-engineers`, `about-global-logistics`, `about-valves` | About mosaic (valves also in the OEM card) |
 | `hero-warehouse`, `about-shipping-port` | Why Choose tiles, Procurement panel |
 | `services-collage`, `products-collage` | Manpower and Hydraulics panels |
