@@ -2,7 +2,7 @@
 
 A single-page corporate site built from the company presentation (`../Presentation_UNI INDUS GLOBAL_Updated_20260907.pdf`) and the audit in `../report.pdf`.
 
-Stack: Vite 6, React 19, TypeScript, Tailwind CSS 4, lucide-react icons. There is no other runtime dependency. The page is prerendered at build time, so the HTML already contains all content before JavaScript runs.
+Stack: Vite 6, React 19, TypeScript, Tailwind CSS 4, lucide-react icons and Lenis (eased wheel scrolling). There is no other runtime dependency. The page is prerendered at build time, so the HTML already contains all content before JavaScript runs.
 
 ## Commands
 
@@ -42,6 +42,17 @@ Header: Home · About · Verticals · Industries · Partners · Contact Us.
 6. `#partners`: PDF p16
 7. `#contact`: PDF p15 and the inquiry form
 8. Footer
+
+## Colours and motion
+
+The palette and the scroll behaviour follow the previous live site (uni-indus-global.vercel.app):
+
+- Tailwind's slate scale for dark surfaces and amber for accents, defined once in the `@theme` block of `src/index.css`.
+- Sections alternate dark and light. A light section carries the `theme-light` class, which remaps the same colour tokens to their light values; `theme-dark` switches back for photo cards inside a light section. Inside `theme-light`, use fixed hex backgrounds (`bg-[#f1f5f9]`), because `white` and `slate-100` are remapped there.
+- Sizing is fluid, with no scaling transforms. The header, hero and industry bar use `clamp()` values in `src/index.css` whose middle term is the reference design's measurement divided by its 1839px width. Below the hero, `1rem` grows with the viewport from 1536px up, so section type and spacing scale on large screens. Size new things in rem, not px.
+- One page container, `.container-x`, for every section below the hero. It uses the header's side padding (16px phones, 24px tablets, then 4.95% of the viewport), so content lines up with the logo and the Contact Us button. Don't add per-section max-widths; limit only text blocks.
+- Blocks with the `reveal` class fade up as they scroll into view; siblings stagger 0.1s apart; `data-reveal="left"` or `"right"` slides in from the side.
+- `src/lib/scroll.ts` starts Lenis with the live site's settings. All motion is switched off for visitors who ask for reduced motion.
 
 ## Inquiry form
 
