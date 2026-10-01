@@ -4,7 +4,7 @@ import { GENERAL_CONTACT } from '../content/contact'
 import { NAV } from '../content/site'
 import { Logo } from './Logo'
 
-const link = 'inline-flex min-h-11 min-w-11 items-center text-slate-300 transition-colors hover:text-gold-300'
+const link = 'inline-flex min-h-11 min-w-11 items-center text-slate-300 transition-colors hover:text-amber-400'
 
 export function Footer() {
   return (

@@ -4,8 +4,8 @@ import { SectionHeading, StrengthChips } from '../components/ui'
 /** Laid out as on PDF p12: panorama beside the heading, then five image cards. */
 export function Industries() {
   return (
-    <section id="industries" aria-labelledby="industries-title" className="relative bg-navy-950">
-      <div className="relative isolate overflow-hidden">
+    <section id="industries" aria-labelledby="industries-title" className="theme-light relative bg-[#f1f5f9]">
+      <div className="theme-dark relative isolate overflow-hidden bg-navy-950">
         <img
           src={INDUSTRIES_BANNER}
           alt=""
@@ -18,18 +18,17 @@ export function Industries() {
           aria-hidden="true"
           className="absolute inset-0 -z-10 bg-linear-to-b from-navy-950/60 to-navy-950 lg:bg-linear-to-r lg:from-navy-950 lg:via-navy-950/70 lg:to-transparent"
         />
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-linear-to-t from-navy-950 to-transparent" />
-        <div className="container-x pt-14 pb-16 sm:pt-[72px] lg:pt-24 lg:pb-28">
+                <div className="container-x pt-14 pb-16 sm:pt-[4.5rem] lg:pt-24 lg:pb-28">
           <SectionHeading id="industries-title" lines={['Industries', 'We Serve']} subtitle={INDUSTRIES_INTRO} className="reveal max-w-md" />
         </div>
       </div>
 
-      <div className="container-x pb-14 sm:pb-[72px] lg:pb-24">
-        <ul className="-mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:-mt-10 xl:grid-cols-5">
+      <div className="container-x pb-14 sm:pb-[4.5rem] lg:pb-24">
+        <ul className="-mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:-mt-12 xl:grid-cols-5">
           {INDUSTRIES.map(({ name, icon: Icon, image, items }) => (
             <li
               key={name}
-              className="reveal group relative isolate min-h-[330px] overflow-hidden rounded-[var(--radius-card)] border border-gold-400/60 bg-navy-900 transition-colors hover:border-gold-400"
+              className="theme-dark reveal group relative isolate min-h-[20.625rem] overflow-hidden rounded-[var(--radius-card)] border border-amber-500/60 bg-navy-900 shadow-lg hover-card"
             >
               <img
                 src={image}

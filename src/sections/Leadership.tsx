@@ -9,13 +9,13 @@ const THEME_ICONS = [OilRig, Cog, Handshake, BarChart3, ShieldCheck, Globe]
 export function Leadership() {
   const leaders = LEADERSHIP.order.map((name) => PEOPLE.find((p) => p.name === name)!)
   return (
-    <div id="leadership" data-anchor className="border-t border-gold-400/15 bg-navy-900">
+    <div id="leadership" data-anchor className="bg-[#ffffff]">
       <div className="section-y container-x">
-        <SectionHeading as="h3" lines={LEADERSHIP.heading} subtitle={<em className="text-slate-100">{LEADERSHIP.tagline}</em>} className="reveal" />
+        <SectionHeading as="h3" lines={LEADERSHIP.heading} subtitle={<em>{LEADERSHIP.tagline}</em>} className="reveal" />
 
         <ul className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {leaders.map((p) => (
-            <li key={p.name} className="reveal panel flex flex-col p-5 sm:p-6">
+            <li key={p.name} className="reveal panel hover-card flex flex-col p-5 sm:p-6">
               <div className="flex items-center gap-5 border-b border-gold-400/30 pb-5">
                 <img
                   src={p.photo}
@@ -34,7 +34,7 @@ export function Leadership() {
                   <p className="mt-2 font-heading text-base leading-snug font-semibold text-gold-400">{p.role}</p>
                 </div>
               </div>
-              <p className="mx-auto -mt-3.5 rounded-full bg-gold-400 px-5 py-1 font-heading text-sm font-extrabold tracking-wide text-navy-950 uppercase">
+              <p className="mx-auto -mt-3.5 rounded-full bg-amber-500 px-5 py-1 font-heading text-sm font-extrabold tracking-wide text-ink uppercase">
                 Core Expertise
               </p>
               <ul className="mt-4 space-y-2.5">

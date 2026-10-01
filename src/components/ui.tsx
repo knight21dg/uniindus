@@ -4,7 +4,6 @@ import type { IconType } from './icons'
 
 /** Intrinsic sizes of the optimized images in /public/images (at the 1024 width). */
 const IMAGE_SIZES: Record<string, [number, number]> = {
-  'hero-rig': [1024, 576],
   'about-offshore-rig': [1024, 682],
   'hero-engineers': [1024, 576],
   'about-global-logistics': [1024, 682],
@@ -30,7 +29,7 @@ type ImgProps = {
 /** Responsive WebP image. Lazy unless `priority`. */
 export function Img({ name, alt, className, sizes = '(min-width: 1024px) 33vw, 100vw', priority }: ImgProps) {
   const [w, h] = IMAGE_SIZES[name] ?? [1024, 682]
-  const small = name === 'hero-rig' ? 768 : 640
+  const small = 640
   return (
     <img
       src={`/images/${name}-1024.webp`}
@@ -79,9 +78,9 @@ export function SectionHeading({ id, eyebrow, lines, subtitle, align = 'left', a
 /** Gold outline hexagon around an icon (the PDF's icon frame). */
 export function HexIcon({ icon: Icon, size = 'md', filled }: { icon: IconType; size?: 'sm' | 'md' | 'lg'; filled?: boolean }) {
   const dims = { sm: 'size-10', md: 'size-12', lg: 'size-16' }[size]
-  const iconDims = { sm: 'size-[18px]', md: 'size-[22px]', lg: 'size-7' }[size]
+  const iconDims = { sm: 'size-[1.125rem]', md: 'size-[1.375rem]', lg: 'size-7' }[size]
   return (
-    <span className={`relative grid shrink-0 place-items-center ${dims}`} aria-hidden="true">
+    <span className={`hex-icon relative grid shrink-0 place-items-center ${dims}`} aria-hidden="true">
       <svg viewBox="0 0 100 100" className="absolute inset-0 size-full" preserveAspectRatio="none">
         <polygon
           points="50,3 94,27 94,73 50,97 6,73 6,27"
@@ -118,7 +117,7 @@ export function StrengthStrip({ items, label }: { items: { title: string; text: 
       className="panel grid grid-cols-1 divide-y divide-white/10 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-3 xl:flex xl:divide-x"
     >
       {items.map(({ title, text, icon: Icon }) => (
-        <li key={title} className="flex min-w-0 flex-1 gap-3 p-4 sm:p-5">
+        <li key={title} className="flex min-w-0 flex-1 gap-3 p-4 transition-colors duration-200 hover:bg-white/5 sm:p-5">
           <Icon className="mt-0.5 size-7 shrink-0 text-gold-400" strokeWidth={1.5} aria-hidden="true" />
           <div>
             <p className="font-heading text-sm font-bold tracking-wide text-gold-400 uppercase">{title}</p>

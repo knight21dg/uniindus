@@ -6,9 +6,9 @@ import { Leadership } from './Leadership'
 export function About() {
   const FormerlyIcon = ABOUT.formerlyIcon
   return (
-    <section id="about" aria-labelledby="about-title" className="relative bg-navy-900">
+    <section id="about" aria-labelledby="about-title" className="theme-light relative overflow-x-clip bg-[#f8fafc]">
       <div className="section-y container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
-        <div className="reveal lg:col-span-5">
+        <div className="reveal lg:col-span-5" data-reveal="left">
           <SectionHeading id="about-title" lines={['About', COMPANY.name]} />
 
           <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 font-semibold text-white">
@@ -31,7 +31,7 @@ export function About() {
 
           <ul className="mt-8 grid grid-cols-2 gap-3">
             {ABOUT.strengths.map(({ title, text, icon: Icon }) => (
-              <li key={title} className="panel-subtle flex gap-3 p-4">
+              <li key={title} className="panel-subtle hover-card flex gap-3 p-4">
                 <Icon className="size-7 shrink-0 text-gold-400" strokeWidth={1.5} aria-hidden="true" />
                 <div>
                   <p className="font-heading text-sm font-bold text-gold-400 uppercase">{title}</p>
@@ -42,11 +42,11 @@ export function About() {
           </ul>
         </div>
 
-        <ul className="reveal grid grid-cols-2 gap-3 self-start sm:gap-4 lg:col-span-7 lg:grid-rows-[repeat(2,minmax(0,1fr))_auto]" aria-label="Company imagery">
+        <ul data-reveal="right" className="reveal grid grid-cols-2 gap-3 self-start sm:gap-4 lg:col-span-7 lg:grid-rows-[repeat(2,minmax(0,1fr))_auto]" aria-label="Company imagery">
           {ABOUT.mosaic.map(({ image, caption, sub }, i) => (
             <li
               key={image}
-              className={`relative isolate overflow-hidden rounded-[var(--radius-card)] border border-gold-400/35 ${
+              className={`theme-dark group hover-card relative isolate overflow-hidden rounded-[var(--radius-card)] border border-amber-500/40 shadow-lg ${
                 i === 0 ? 'col-span-2 aspect-[16/9] sm:col-span-1 sm:row-span-2 sm:aspect-auto' : 'aspect-[4/3]'
               } ${i === 3 ? 'sm:col-span-2 sm:aspect-[21/8]' : ''}`}
             >
@@ -54,7 +54,7 @@ export function About() {
                 name={image}
                 alt=""
                 sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
-                className="absolute inset-0 -z-10 size-full object-cover"
+                className="absolute inset-0 -z-10 size-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-t from-navy-950/90 via-navy-950/20 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
@@ -77,7 +77,7 @@ function VisionMissionValues() {
   const cards = [VMV.vision, VMV.mission]
   const ValuesIcon = VMV.values.icon
   return (
-    <div className="relative isolate overflow-hidden border-t border-gold-400/15 bg-navy-950">
+    <div className="theme-dark relative isolate overflow-hidden bg-navy-950">
       <Img name="hero-network" alt="" sizes="100vw" className="absolute inset-0 -z-20 size-full object-cover opacity-45" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-b from-navy-950/70 via-navy-950/85 to-navy-950" />
       <div className="section-y container-x">
@@ -85,8 +85,8 @@ function VisionMissionValues() {
 
         <div className="mt-16 grid gap-14 md:grid-cols-3 md:gap-6 lg:gap-8">
           {cards.map(({ title, text, icon: Icon }) => (
-            <article key={title} className="reveal panel relative flex flex-col items-center px-6 pt-14 pb-8 text-center">
-              <span className="icon-ring absolute -top-9 size-[72px] border-2 bg-navy-900">
+            <article key={title} className="reveal panel hover-card relative flex flex-col items-center px-6 pt-14 pb-8 text-center">
+              <span className="icon-ring absolute -top-9 size-[4.5rem] border-2 bg-navy-900">
                 <Icon className="size-8" strokeWidth={1.5} aria-hidden="true" />
               </span>
               <h4 className="font-heading text-2xl font-extrabold tracking-wide text-gold-400 uppercase">{title}</h4>
@@ -94,8 +94,8 @@ function VisionMissionValues() {
               <p className="mt-5 text-lg leading-relaxed text-slate-100">{text}</p>
             </article>
           ))}
-          <article className="reveal panel relative flex flex-col items-center px-6 pt-14 pb-8">
-            <span className="icon-ring absolute -top-9 size-[72px] border-2 bg-navy-900">
+          <article className="reveal panel hover-card relative flex flex-col items-center px-6 pt-14 pb-8">
+            <span className="icon-ring absolute -top-9 size-[4.5rem] border-2 bg-navy-900">
               <ValuesIcon className="size-8" strokeWidth={1.5} aria-hidden="true" />
             </span>
             <h4 className="font-heading text-2xl font-extrabold tracking-wide text-gold-400 uppercase">{VMV.values.title}</h4>

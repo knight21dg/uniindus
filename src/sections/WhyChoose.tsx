@@ -27,7 +27,7 @@ function Hub() {
  */
 function Wheel() {
   return (
-    <div className="relative mx-auto w-full xl:aspect-square xl:max-w-[780px]">
+    <div className="relative mx-auto w-full xl:aspect-square xl:max-w-[56rem]">
       <svg viewBox="0 0 100 100" className="absolute inset-0 hidden size-full xl:block" aria-hidden="true">
         <circle cx="50" cy="50" r="48.5" fill="rgb(11 27 52 / 0.55)" stroke="var(--color-gold-400)" strokeWidth="0.35" />
         <circle cx="50" cy="50" r="19" fill="var(--color-navy-950)" stroke="var(--color-gold-400)" strokeWidth="0.6" />
@@ -60,12 +60,12 @@ function Wheel() {
                 '--y': `${50 + RADIUS * Math.sin(angle(i))}%`,
               } as React.CSSProperties
             }
-            className="panel-subtle flex gap-4 p-4 sm:p-5 xl:absolute xl:top-(--y) xl:left-(--x) xl:block xl:w-[25%] xl:-translate-x-1/2 xl:-translate-y-1/2 xl:border-0 xl:bg-transparent xl:p-0 xl:text-center"
+            className="reveal panel-subtle hover-card xl-plain flex gap-4 p-4 sm:p-5 xl:absolute xl:top-(--y) xl:left-(--x) xl:block xl:w-[25%] xl:-translate-x-1/2 xl:-translate-y-1/2 xl:border-0 xl:bg-transparent xl:p-0 xl:text-center"
           >
             <Icon className="size-8 shrink-0 text-gold-400 xl:mx-auto" strokeWidth={1.5} aria-hidden="true" />
             <div>
-              <h3 className="font-heading text-base leading-tight font-bold text-gold-400 uppercase xl:mt-2 xl:text-[0.9rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-snug text-slate-200 xl:text-[0.8rem]">{text}</p>
+              <h3 className="font-heading text-base leading-tight font-bold text-gold-400 uppercase xl:mt-2 xl:text-[1.05rem]">{title}</h3>
+              <p className="mt-1.5 text-sm leading-snug text-slate-200 xl:text-[0.95rem]">{text}</p>
             </div>
           </li>
         ))}
@@ -90,15 +90,15 @@ export function WhyChoose() {
         />
 
         <div className="mt-10 grid gap-8 lg:mt-14 xl:grid-cols-12 xl:items-center xl:gap-10">
-          <div className="reveal xl:col-span-8">
+          <div className="xl:col-span-8">
             <Wheel />
           </div>
 
-          <ul aria-label="Solution areas" className="reveal grid grid-cols-2 gap-3 md:grid-cols-4 xl:col-span-4 xl:grid-cols-1">
+          <ul aria-label="Solution areas" className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:col-span-4 xl:grid-cols-1">
             {WHY_CHOOSE.solutionAreas.map(({ title, image, icon: Icon }) => (
               <li
                 key={title}
-                className="group relative isolate flex h-36 items-end overflow-hidden rounded-[var(--radius-card)] border border-gold-400/40 sm:h-44 xl:h-[150px] xl:items-center xl:justify-end"
+                className="reveal group hover-card relative isolate flex h-36 items-end overflow-hidden rounded-[var(--radius-card)] border border-gold-400/40 sm:h-44 xl:h-[9.375rem] xl:items-center xl:justify-end"
               >
                 <Img
                   name={image}
