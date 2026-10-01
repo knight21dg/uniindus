@@ -9,7 +9,7 @@ const ORDER: (keyof Inquiry)[] = ['name', 'company', 'email', 'phone', 'requirem
 type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind: 'error'; message: string }
 
 const inputBase =
-  'mt-2 block min-h-12 w-full rounded-lg border bg-navy-950/70 px-4 py-3 text-base text-white placeholder:text-slate-500 transition-colors focus:border-gold-400 focus:outline-none focus-visible:outline-2 focus-visible:outline-gold-400'
+  'mt-2 block min-h-12 w-full rounded-lg border bg-navy-950/70 px-4 py-3 text-base text-white placeholder:text-slate-500 transition-colors hover:border-gold-400/60 focus:border-gold-400 focus:outline-none focus-visible:outline-2 focus-visible:outline-gold-400'
 
 function FieldError({ name, message }: { name: keyof Inquiry; message?: string }) {
   if (!message) return null
@@ -149,7 +149,7 @@ export function InquiryForm() {
         <input ref={honeypot} id="inq-website" name="_honey" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <button type="submit" disabled={sending} className="btn btn-primary mt-7 w-full tracking-wide uppercase disabled:cursor-wait disabled:opacity-80 sm:w-auto">
+      <button type="submit" disabled={sending} className="btn btn-primary btn-flat mt-7 w-full tracking-wide uppercase disabled:cursor-wait disabled:opacity-80 sm:w-auto">
         {sending ? (
           <>
             <LoaderCircle className="size-5 animate-spin" aria-hidden="true" />
@@ -158,7 +158,7 @@ export function InquiryForm() {
         ) : (
           <>
             Send Inquiry
-            <Send className="size-5" aria-hidden="true" />
+            <Send className="btn-arrow size-5" aria-hidden="true" />
           </>
         )}
       </button>
