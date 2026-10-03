@@ -537,36 +537,33 @@
     }
   }
 
-  /* Partner cards in the scrolling strip (the previous live site's treatment). */
+  /*
+   * Partner cards in the scrolling strip: the large photo-and-logo cards of
+   * PDF p16. The card passing the centre is enlarged and lit.
+   */
   .partner-card {
-    @apply flex shrink-0 items-center gap-4 rounded-2xl border bg-[#ffffff] px-6 py-4;
-    border-color: #e2e8f0;
-    box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+    @apply flex shrink-0 overflow-hidden rounded-[var(--radius-card)] border text-left;
+    width: min(28rem, 84vw);
+    height: 10.5rem;
+    background: #0f172a;
+    border-color: rgb(245 158 11 / 0.6);
+    box-shadow: 0 4px 10px rgb(15 23 42 / 0.18);
     scale: 0.95;
-    opacity: 0.8;
+    opacity: 0.85;
     transition:
       scale 0.3s ease,
       opacity 0.3s ease,
       border-color 0.3s ease,
-      box-shadow 0.3s ease,
-      background 0.3s ease;
+      box-shadow 0.3s ease;
   }
   .partner-card[data-center] {
     position: relative;
     z-index: 30;
-    scale: 1.15;
+    scale: 1.07;
     opacity: 1;
     border-color: #fbbf24;
     outline: 1px solid #fbbf24;
-    background: linear-gradient(90deg, #fffbeb, #ffffff, #fffbeb);
-    box-shadow: 0 12px 35px rgb(245 158 11 / 0.4);
-  }
-  .partner-logo {
-    @apply grid h-14 w-28 shrink-0 place-items-center overflow-hidden rounded-xl bg-[#ececec] p-1.5;
-    transition: scale 0.3s ease;
-  }
-  .partner-card[data-center] .partner-logo {
-    scale: 1.06;
+    box-shadow: 0 14px 38px rgb(245 158 11 / 0.4);
   }
 }
 

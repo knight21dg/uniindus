@@ -8,7 +8,7 @@ import { Img, SectionHeading, StrengthStrip } from '../components/ui'
 // by one copy's width and repeats, so the strip never shows a gap.
 const COPIES = 3
 /** A card within this many pixels of the strip's centre is the highlighted one. */
-const CENTER_RANGE = 160
+const CENTER_RANGE = 230
 
 /**
  * Marks whichever card is passing the centre of the strip, so CSS can enlarge
@@ -79,8 +79,8 @@ export function Partners() {
 
       <div
         ref={stripRef}
-        className="marquee reveal relative mt-6 py-10"
-        style={{ '--marquee-copies': COPIES, '--marquee-duration': '35s' } as React.CSSProperties}
+        className="marquee reveal relative mt-6 py-8"
+        style={{ '--marquee-copies': COPIES, '--marquee-duration': '48s' } as React.CSSProperties}
         tabIndex={0}
         role="group"
         aria-label="Partners and collaborators"
@@ -92,16 +92,27 @@ export function Partners() {
             <ul key={copy} aria-hidden={copy > 0 ? true : undefined} className="flex shrink-0 items-center gap-8 pr-8">
               {PARTNERS.map((p) => (
                 <li key={p.name} className="partner-card">
-                  <span className="partner-logo">
-                    <img src={p.logo} alt="" loading="lazy" className="max-h-full max-w-full object-contain" />
-                  </span>
-                  <span className="flex flex-col text-left">
-                    <span className="font-heading text-base font-extrabold whitespace-nowrap text-slate-900">{p.short}</span>
-                    {p.descriptor && (
-                      <span className="mt-0.5 text-[0.69rem] font-bold tracking-wider whitespace-nowrap text-slate-500 uppercase">
-                        {p.descriptor}
+                  {p.photo ? (
+                    <img src={p.photo} alt="" loading="lazy" className="w-[42%] shrink-0 border-r border-amber-500/40 object-cover" />
+                  ) : (
+                    <span className="flex w-[42%] shrink-0 items-center justify-center p-3">
+                      <img src={p.logo} alt="" loading="lazy" className="max-h-full max-w-full rounded-sm object-contain" />
+                    </span>
+                  )}
+                  <span className="flex min-w-0 flex-1 flex-col">
+                    {p.photo && (
+                      <span className="flex h-[52%] shrink-0 items-center justify-center bg-[#ececec] px-3 py-1.5">
+                        <img src={p.logo} alt="" loading="lazy" className="max-h-full max-w-full object-contain" />
                       </span>
                     )}
+                    <span className="flex flex-1 flex-col justify-center px-3.5 py-2">
+                      <span className="text-[0.9rem] leading-snug font-medium text-[#ffffff]">{p.name}</span>
+                      {p.descriptor && (
+                        <span className="mt-0.5 font-heading text-[0.78rem] leading-snug font-bold text-amber-400 uppercase">
+                          {p.descriptor}
+                        </span>
+                      )}
+                    </span>
                   </span>
                 </li>
               ))}
