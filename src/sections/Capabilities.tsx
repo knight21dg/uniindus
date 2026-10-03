@@ -1,5 +1,5 @@
 import type { KeyboardEvent, ReactNode } from 'react'
-import { ArrowRight, CircleCheckBig, Package } from 'lucide-react'
+import { ArrowRight, CircleCheckBig, Globe, Package } from 'lucide-react'
 import {
   DETAIL_TABS,
   EXIM,
@@ -328,26 +328,34 @@ export function Products() {
 
       <Divider />
 
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-        <div className="lg:col-span-7">
-          <SectionHeading as="h3" lines={HYDRAULICS.heading} />
-          <p className="lead mt-4">{HYDRAULICS.text}</p>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-3">
-            {HYDRAULICS.groups.map(({ title, icon, items }) => (
-              <li key={title} className="panel hover-card p-5">
-                <HexIcon icon={icon} />
-                <h4 className="mt-3 font-heading text-base font-bold text-gold-400 uppercase">{title}</h4>
-                <BulletList items={items} className="mt-3" />
+      <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
+        <div className="theme-dark reveal hover-card rounded-[var(--radius-card)] border border-gold-400/70 bg-navy-950 p-5 shadow-lg sm:p-6 lg:col-span-5">
+          <div className="flex items-center gap-4">
+            <span className="icon-ring size-14 border-2">
+              <Globe className="size-7" strokeWidth={1.6} aria-hidden="true" />
+            </span>
+            <h4 className="font-heading text-xl leading-tight font-bold text-gold-400 uppercase">Global Procurement Network</h4>
+          </div>
+          <ul className="mt-6 divide-y divide-gold-400/25 border-t border-gold-400/25">
+            {EXIM.network.map((item) => (
+              <li key={item} className="flex items-center gap-3 py-2.5 text-base text-[#ffffff]">
+                <CircleCheckBig className="size-6 shrink-0 text-gold-400" strokeWidth={1.75} aria-hidden="true" />
+                {item}
               </li>
             ))}
           </ul>
         </div>
-        <figure className="overflow-hidden rounded-[var(--radius-card)] border border-gold-400/35 lg:col-span-5">
-          <Img name={HYDRAULICS.image} alt="Hydraulic hoses, pneumatic regulators and welding work" sizes="(min-width: 1024px) 500px, 100vw" className="w-full object-cover" />
+        <figure className="reveal relative min-h-[14rem] overflow-hidden rounded-[var(--radius-card)] border border-gold-400/35 lg:col-span-7">
+          <Img
+            name={EXIM.image}
+            alt="Container port with cargo ship, trucks and an aircraft overhead"
+            sizes="(min-width: 1024px) 700px, 100vw"
+            className="absolute inset-0 size-full object-cover"
+          />
         </figure>
       </div>
       <BrandPanel title="Our Premium Brands" brands={HYDRAULICS.brands} gridClass="grid-cols-3 sm:grid-cols-5 lg:grid-cols-10" className="mt-10" />
-      <StrengthChips items={HYDRAULICS.strengths} label="Technical supplies strengths" className="mt-8" />
+      <StrengthChips items={HYDRAULICS.strengths} label="Premium brand strengths" className="mt-8" />
     </div>
   )
 }
