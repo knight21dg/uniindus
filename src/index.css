@@ -83,9 +83,8 @@
 .theme-dark .panel-subtle {
   box-shadow: none;
 }
-/* Honeycomb cells and wheel points drop their card chrome from 1280px. */
+/* Wheel points drop their card chrome from 1280px. */
 @media (min-width: 1280px) {
-  .theme-light .panel-subtle.hex-cell,
   .theme-light .panel-subtle.xl-plain {
     box-shadow: none;
   }
@@ -786,27 +785,18 @@ html.lenis.lenis-stopped {
     box-shadow: 0 0 0 1px #fbbf24;
   }
 
-  /* Honeycomb cells and wheel points are placed precisely from 1280px, so they
-     keep their position: hexes grow slightly instead of lifting. */
+  /* The Why Choose wheel points are placed precisely from 1280px, so they keep
+     their position and carry no top bar. */
   @media (min-width: 1280px) {
-    .hover-card.hex-cell:hover {
-      translate: none;
-      box-shadow: none;
-      scale: 1.05;
-      z-index: 10;
-    }
     .hover-card.xl-plain:hover {
       translate: revert-layer;
       box-shadow: none;
     }
-    /* Hexagons and wheel points have no straight top edge to carry the bar. */
-    .hover-card.hex-cell::before,
     .hover-card.xl-plain::before {
       display: none;
     }
   }
-  .chip:hover,
-  .hero-chip:hover {
+  .chip:hover {
     border-color: rgb(251 191 36 / 0.7);
     background-color: rgb(30 41 59 / 0.8);
   }

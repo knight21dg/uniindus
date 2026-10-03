@@ -58,16 +58,16 @@ export const VERTICALS_INTRO = {
 }
 
 /**
- * The eight verticals. "Lasioning Works" is the PDF's spelling on p1, p2 and p4;
+ * The eight verticals, in the order of the PDF cover (p1). "Lasioning Works" is the PDF's spelling on p1, p2 and p4;
  * it is kept as written until the client confirms it (likely "Liaisoning").
  */
 export const VERTICALS: Vertical[] = [
   { id: 'oil-gas-consultants', title: 'Oil & Gas Consultants', text: 'Expert advisory and consultancy for oil & gas projects.', icon: OilRig },
   { id: 'offshore-marine-pm', title: 'Offshore & Marine Project Management', text: 'End-to-end project management for offshore and marine operations.', icon: Ship },
-  { id: 'business-auxiliary', title: 'Business Auxiliary Services', text: 'Support services to enhance business efficiency.', icon: Cog },
-  { id: 'global-sourcing-exim', title: 'Global Sourcing & EXIM Solutions', text: 'Access to global markets with reliable sourcing and EXIM support.', icon: Globe, detail: 'exim' },
-  { id: 'industrial-procurement', title: 'Industrial Procurement', text: 'One-stop sourcing for industrial products, equipment and services.', icon: ClipboardList, detail: 'procurement' },
   { id: 'lasioning-works', title: 'Lasioning Works', text: 'Liaison, coordination and stakeholder management.', icon: Users },
+  { id: 'business-auxiliary', title: 'Business Auxiliary Services', text: 'Support services to enhance business efficiency.', icon: Cog },
+  { id: 'industrial-procurement', title: 'Industrial Procurement', text: 'One-stop sourcing for industrial products, equipment and services.', icon: ClipboardList, detail: 'procurement' },
+  { id: 'global-sourcing-exim', title: 'Global Sourcing & EXIM Solutions', text: 'Access to global markets with reliable sourcing and EXIM support.', icon: Globe, detail: 'exim' },
   { id: 'industrial-manpower', title: 'Industrial & Manpower Services', text: 'Skilled, certified and experienced workforce solutions.', icon: HardHat, detail: 'manpower' },
   { id: 'global-network', title: 'Global Network – Local Operations', text: 'Worldwide reach with on-ground support.', icon: Network, supporting: true },
 ]
