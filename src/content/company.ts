@@ -7,6 +7,7 @@ import {
   Globe,
   Handshake,
   HardHat,
+  Headset,
   IndianRupee,
   Landmark,
   MountainSnow,
@@ -51,7 +52,8 @@ export const SERVING_INDUSTRIES: { name: string; icon: IconType }[] = [
 /* ---------- Why Choose (PDF p13) ---------- */
 
 export const WHY_CHOOSE = {
-  subtitle: 'Your Trusted Partner for Procurement, Manpower & Industrial Solutions',
+  /** Followed by the cover heading, Project Resources & Services (HERO.tagline). */
+  subtitleLead: 'Your Trusted Partner for',
   hubMessage: ['Reliable', 'Responsive', 'Resourceful'],
   /** Clockwise from the top of the PDF wheel. */
   points: [
@@ -76,6 +78,14 @@ export const WHY_CHOOSE = {
     { title: 'Compliance & Safety', text: 'Adhering to international standards and strict safety protocols.', icon: ShieldCheck },
     { title: 'Customer-Centric Approach', text: 'Understanding client needs and delivering tailored solutions.', icon: Handshake },
     { title: 'Long-Term Partnerships', text: 'Building lasting relationships based on trust, value and commitment.', icon: TrendingUp },
+  ] satisfies Titled[],
+  /** Value strip above the banner, as supplied by the client. */
+  values: [
+    { title: 'Global Reach', text: 'Strong network of manufacturers and suppliers worldwide.', icon: Globe },
+    { title: 'Quality Assurance', text: 'Products sourced from certified and trusted manufacturers.', icon: BadgeCheck },
+    { title: 'Cost Efficiency', text: 'Optimized procurement to deliver best value to our customers.', icon: IndianRupee },
+    { title: 'Reliable Partnerships', text: 'Long-term relationships built on trust, performance and transparency.', icon: ShieldCheck },
+    { title: 'End-to-End Support', text: 'From sourcing to delivery, complete solutions under one roof.', icon: Headset },
   ] satisfies Titled[],
   banner: ['One Partner', 'Multiple Solutions', 'Total Commitment'],
 }

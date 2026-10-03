@@ -1,6 +1,6 @@
 import type React from 'react'
-import { COMPANY, WHY_CHOOSE } from '../content/company'
-import { Img, SectionHeading, StrengthStrip } from '../components/ui'
+import { COMPANY, HERO, WHY_CHOOSE } from '../content/company'
+import { Img, SectionHeading } from '../components/ui'
 
 const N = WHY_CHOOSE.points.length
 const RADIUS = 34 // % of the wheel's width, to each point's centre
@@ -85,9 +85,14 @@ export function WhyChoose() {
         <SectionHeading
           id="why-title"
           lines={['Why Choose', COMPANY.name]}
-          subtitle={WHY_CHOOSE.subtitle}
           className="reveal"
         />
+        <p className="reveal mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="text-base text-muted sm:text-lg">{WHY_CHOOSE.subtitleLead}</span>
+          <span className="font-heading text-2xl font-semibold text-white sm:text-3xl lg:text-[2.1rem]">
+            {HERO.tagline[0]} <span className="text-gold-400">{HERO.tagline[1]}</span> {HERO.tagline[2]}
+          </span>
+        </p>
 
         <div className="mt-10 grid gap-8 lg:mt-14 xl:grid-cols-12 xl:items-center xl:gap-10">
           <div className="xl:col-span-8">
@@ -121,11 +126,19 @@ export function WhyChoose() {
           </ul>
         </div>
 
-        <div className="reveal mt-10 lg:mt-14">
-          <StrengthStrip items={WHY_CHOOSE.trustPoints} label="Why clients work with us" />
-        </div>
+        <ul aria-label="What we deliver" className="reveal hero-trust-list trust-5 mt-10 lg:mt-14">
+          {WHY_CHOOSE.values.map(({ title, text, icon: Icon }) => (
+            <li key={title} className="hero-trust-item">
+              <Icon className="hero-trust-icon" strokeWidth={1.6} aria-hidden="true" />
+              <div className="min-w-0">
+                <p className="hero-trust-title">{title}</p>
+                <p className="hero-trust-text">{text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
 
-        <div className="reveal mt-6 flex items-center gap-3 sm:gap-5" role="presentation">
+        <div className="reveal mt-8 flex lg:mt-10 items-center gap-3 sm:gap-5" role="presentation">
           <span className="hazard hidden h-9 w-16 shrink-0 opacity-80 sm:block" aria-hidden="true" />
           <p className="flex flex-1 flex-col items-center justify-center gap-1 text-center font-heading text-lg font-extrabold tracking-wide text-gold-400 uppercase sm:flex-row sm:gap-4 sm:text-2xl">
             {WHY_CHOOSE.banner.map((part, i) => (
