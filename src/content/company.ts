@@ -34,8 +34,9 @@ export const COMPANY = {
 /* ---------- Hero (PDF p1) ---------- */
 
 export const HERO = {
-  subtitle: 'Industrial Procurement, Global Sourcing & Offshore Manpower Solutions',
-  chips: ['Reliable Supply', 'Skilled Workforce', 'Operational Excellence'],
+  /** PDF p1 cover heading and line. */
+  tagline: ['Project', 'Resources', '& Services'] as const,
+  lead: 'Delivering integrated solutions for Oil & Gas, Marine and Industrial sectors across global markets.',
 }
 
 /** The gold "Serving Industries" strip that closes every PDF page. */

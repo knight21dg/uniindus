@@ -1,6 +1,6 @@
 import type React from 'react'
-import { ArrowRight, CircleCheckBig, ShieldCheck } from 'lucide-react'
-import { COMPANY, HERO, SERVING_INDUSTRIES } from '../content/company'
+import { ArrowRight, ShieldCheck } from 'lucide-react'
+import { COMPANY, HERO, SERVING_INDUSTRIES, WHY_CHOOSE } from '../content/company'
 
 /**
  * Layers, back to front: background image, navy overlay, content, then the
@@ -41,16 +41,10 @@ export function Hero() {
           </h1>
           <span className="hero-rule" aria-hidden="true" />
 
-          <p className="hero-subtitle">{HERO.subtitle}</p>
-
-          <ul className="hero-chips">
-            {HERO.chips.map((chip) => (
-              <li key={chip} className="hero-chip">
-                <CircleCheckBig strokeWidth={1.9} aria-hidden="true" />
-                {chip}
-              </li>
-            ))}
-          </ul>
+          <p className="hero-tagline">
+            {HERO.tagline[0]} <span className="text-gold-400">{HERO.tagline[1]}</span> {HERO.tagline[2]}
+          </p>
+          <p className="hero-subtitle">{HERO.lead}</p>
 
           <div className="hero-actions">
             <a href="#verticals" className="btn btn-primary hero-btn">
@@ -63,10 +57,31 @@ export function Hero() {
             </a>
           </div>
         </div>
+
+        <TrustStrip />
       </div>
 
       <IndustryBar />
     </section>
+  )
+}
+
+/** The PDF p13 trust points, as a row of cards across the foot of the hero. */
+function TrustStrip() {
+  return (
+    <div className="hero-trust">
+      <ul aria-label="Why clients work with us" className="hero-trust-list">
+        {WHY_CHOOSE.trustPoints.map(({ title, text, icon: Icon }) => (
+          <li key={title} className="hero-trust-item">
+            <Icon className="hero-trust-icon" strokeWidth={1.6} aria-hidden="true" />
+            <div className="min-w-0">
+              <p className="hero-trust-title">{title}</p>
+              <p className="hero-trust-text">{text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
