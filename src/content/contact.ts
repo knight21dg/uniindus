@@ -13,17 +13,8 @@ export type Person = {
   photo: string
 }
 
-/** PDF p15, in the PDF's order. */
+/** PDF p15 details, listed in the client's order (also the p14 leadership order). */
 export const PEOPLE: Person[] = [
-  {
-    name: 'Seshu Kashyapa',
-    role: 'Head – Operations & Supply Chain',
-    phone: '+91 95151 42492',
-    tel: '+919515142492',
-    email: 'kashyapa@uniindusglobal.com',
-    expertise: ['Offshore Operations Support', 'Industrial Procurement', 'Global Sourcing', 'Supply Chain Management', 'Vendor Development', 'Materials & Logistics Management'],
-    photo: '/images/pdf/leader-seshu.webp',
-  },
   {
     name: 'Rajendra Jeena',
     role: 'Head – Operations & Business Development',
@@ -41,6 +32,15 @@ export const PEOPLE: Person[] = [
     email: 'bnair@uniindusglobal.com',
     expertise: ['Finance & Commercial Management', 'Taxation & Compliance', 'Budgeting & Forecasting', 'Contract Administration', 'Financial Controls', 'Strategic Financial Planning'],
     photo: '/images/pdf/leader-binu.webp',
+  },
+  {
+    name: 'Seshu Kashyapa',
+    role: 'Head – Operations & Supply Chain',
+    phone: '+91 95151 42492',
+    tel: '+919515142492',
+    email: 'kashyapa@uniindusglobal.com',
+    expertise: ['Offshore Operations Support', 'Industrial Procurement', 'Global Sourcing', 'Supply Chain Management', 'Vendor Development', 'Materials & Logistics Management'],
+    photo: '/images/pdf/leader-seshu.webp',
   },
 ]
 
@@ -70,6 +70,5 @@ export const REQUIREMENT_OPTIONS = [
   ...VERTICALS.map((v) => v.title),
   'OEM Spare Parts & MRO',
   'Product Portfolio',
-  'Hydraulics & Technical Supplies',
   'Other',
 ]

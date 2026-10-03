@@ -1,4 +1,4 @@
-import { Mail, MapPin } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import { COMPANY, SERVING_INDUSTRIES } from '../content/company'
 import { GENERAL_CONTACT } from '../content/contact'
 import { NAV } from '../content/site'
@@ -47,10 +47,6 @@ export function Footer() {
         <div className="lg:col-span-3">
           <h2 className="font-heading text-sm font-bold tracking-[0.18em] text-white uppercase">Contact</h2>
           <ul className="mt-3">
-            <li className="flex min-h-11 items-center gap-3 text-slate-300">
-              <MapPin className="size-5 shrink-0 text-gold-400" aria-hidden="true" />
-              {GENERAL_CONTACT.location}
-            </li>
             <li>
               <a href={`mailto:${GENERAL_CONTACT.email}`} className={`${link} gap-3`}>
                 <Mail className="size-5 shrink-0 text-gold-400" aria-hidden="true" />

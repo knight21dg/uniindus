@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Mail, MapPin, Phone, UserRound } from 'lucide-react'
+import { Mail, MapPin, Phone } from 'lucide-react'
 import { COMPANY } from '../content/company'
 import { GENERAL_CONTACT, PEOPLE } from '../content/contact'
 import { InquiryForm } from '../components/InquiryForm'
@@ -9,12 +9,35 @@ import type { IconType } from '../components/icons'
 const rowLink =
   'flex min-h-11 items-center gap-3 rounded-md text-slate-100 transition-colors hover:text-gold-300 [overflow-wrap:anywhere]'
 
-function InfoCard({ icon: Icon, title, children }: { icon: IconType; title: string; children: ReactNode }) {
+function InfoCard({
+  icon: Icon,
+  photo,
+  title,
+  children,
+}: {
+  icon?: IconType
+  photo?: { src: string; alt: string }
+  title: string
+  children: ReactNode
+}) {
   return (
     <li className="reveal panel-subtle hover-card flex gap-4 p-5">
-      <span className="icon-ring size-12 border-2">
-        <Icon className="size-6" strokeWidth={1.75} aria-hidden="true" />
-      </span>
+      {photo ? (
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          width={152}
+          height={152}
+          loading="lazy"
+          className="size-16 shrink-0 rounded-full border-2 border-gold-400 bg-slate-200 object-cover sm:size-[4.5rem]"
+        />
+      ) : (
+        Icon && (
+          <span className="icon-ring size-12 border-2">
+            <Icon className="size-6" strokeWidth={1.75} aria-hidden="true" />
+          </span>
+        )
+      )}
       <div className="min-w-0 flex-1">
         <h3 className="font-heading text-lg font-bold tracking-wide text-gold-400 uppercase">{title}</h3>
         {children}
@@ -48,7 +71,7 @@ export function Contact() {
           />
 
           <ul className="mt-8 space-y-4">
-            <InfoCard icon={MapPin} title="Headquarters Address">
+            <InfoCard icon={MapPin} title="Registered Office">
               <p className="flex min-h-11 items-center text-slate-100">{GENERAL_CONTACT.location}</p>
             </InfoCard>
 
@@ -62,7 +85,7 @@ export function Contact() {
             </InfoCard>
 
             {PEOPLE.map((p) => (
-              <InfoCard key={p.email} icon={UserRound} title={p.name}>
+              <InfoCard key={p.email} photo={{ src: p.photo, alt: `Portrait of ${p.name}` }} title={p.name}>
                 <p className="text-sm text-slate-300">{p.role}</p>
                 <div className="mt-1 flex flex-wrap gap-x-8">
                   <a href={`tel:${p.tel}`} className={rowLink}>
